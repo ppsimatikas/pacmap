@@ -1,0 +1,49 @@
+.header {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.burger {
+    --burger-color: var(--mantine-color-white) !important;
+}
+
+.drawer {
+    button {
+        color: white;
+        &:hover {
+            color: #0D1932;
+        }
+    }
+    section, header {
+        background-color: #0D1932;
+    }
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 10px var(--mantine-spacing-md);
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: var(--mantine-font-size-xl);
+
+    &.active,
+    &:hover {
+        color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+        background-color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-6));
+    }
+}
+
+.unstyledLink {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover,
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+

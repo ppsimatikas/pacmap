@@ -9,7 +9,7 @@
     "clean": "rm -rf ./node_modules ./ui/node_modules",
     "build:ui": "yarn workspace ui run build",
     "build": "yarn build:ui",
-    "start:ui": "yarn workspace ui run start",
+    "start:ui": "yarn workspace ui run vite",
     "start:functions": "firebase emulators:start",
     "start": "concurrently \"yarn start:functions\" \"yarn start:ui\"",
     "deploy:walrus": "./scripts/deploy.sh"
