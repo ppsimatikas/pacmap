@@ -48,10 +48,12 @@ export const theme = createTheme({
         },
         TextInput: {
             styles: () => ({
-                label: {
-                    display: 'block',
-                    textAlign: 'left',
+                input: {
+                    backgroundColor: lightYellowColor,
                 },
+                // label: {
+                //     display: 'block',
+                // },
             }),
         },
         Textarea: {

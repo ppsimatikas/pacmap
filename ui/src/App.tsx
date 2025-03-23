@@ -4,6 +4,10 @@ import {Container, Stack} from "@mantine/core";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/Home";
+import {WebRoutes} from "./routes";
+import SearchPage from "./pages/Search";
+import SearchResults from "./pages/SearchResults";
+import ModulePage from "./pages/ModulePage.tsx";
 
 function Layout() {
     return (
@@ -29,6 +33,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Home/>}/>
+                    <Route path={WebRoutes.Search} element={<SearchPage/>}/>
+                    <Route path={WebRoutes.SearchResults} element={<SearchResults/>}/>
+                    <Route path={WebRoutes.Module} element={<ModulePage/>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
             </Routes>
