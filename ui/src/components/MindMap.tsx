@@ -5,8 +5,9 @@ import {brandColor} from "../theme.ts";
 import {useEffect, useRef, useState} from "react";
 import {useUiBreakpoints} from "../utils/use-ui-breakpoints.ts";
 import {useModules} from "../data_access/modules.tsx";
-import {Module} from "../domains/Module.tsx";
-import {Package} from "../domains/Package.tsx";
+import {Module} from "../domains/Module";
+import {Package} from "../domains/Package";
+import {shortAddress} from "./Address";
 
 const Node = ({ position, color, title, icon, onClick }: {
     position: number[];
@@ -73,10 +74,10 @@ const generatePackageNodes = (packages: Package[]) => {
             (Math.random() - 0.5) * 20,
         ],
         color: "blue",
-        name: p.name,
+        name: shortAddress(p.name),
         id: p.id,
         parent: '',
-        icon: `${p.name}.png`,
+        icon: p.name === p.id ? `module.svg` : `${p.name}.png`,
     }));
 };
 

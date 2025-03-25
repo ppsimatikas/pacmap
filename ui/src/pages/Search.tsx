@@ -3,10 +3,11 @@ import {MindMap} from "../components/MindMap";
 import {IconSearch} from "@tabler/icons-react";
 import {lightYellowColor} from "../theme";
 import {useUiBreakpoints} from "../utils/use-ui-breakpoints";
-import {useModules} from "../data_access/modules.tsx";
+import {useModules} from "../data_access/modules";
 import {useNavigate} from "react-router-dom";
 import {toResults} from "../routes";
 import {useState} from "react";
+import {shortAddress} from "../components/Address";
 
 
 function SearchPage() {
@@ -42,7 +43,7 @@ function SearchPage() {
                         p="xl"
                         radius="xl"
                     >
-                        <Stack gap={50}>
+                        <Stack gap={30}>
                             <Title order={3} ta="center" ff="Sixtyfour" fw="normal">Popular Packages</Title>
                             {
                                 loading && <Loader/>
@@ -51,8 +52,8 @@ function SearchPage() {
                                 {
                                     packages.map((p) => (
                                         <Group onClick={() => navigate(toResults(p.name))}>
-                                            <Avatar src={`${p.name.toLowerCase()}.png`} alt="sui" w={40} bg="Blue" p={10} size="lg"/>
-                                            <Text size="30px" style={{ textTransform: 'capitalize' }}>{p.name}</Text>
+                                            <Avatar src={p.name === p.id ? '/module.svg' : `/${p.name.toLowerCase()}.png`} alt="sui" bg="Blue" p={5} size="md"/>
+                                            <Text size="20px" style={{ textTransform: 'capitalize' }}>{shortAddress(p.name)}</Text>
                                         </Group>
                                     ))
                                 }

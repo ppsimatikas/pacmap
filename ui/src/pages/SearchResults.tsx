@@ -1,13 +1,11 @@
-import {Avatar, Badge, Card, Group, Loader, SimpleGrid, Stack, Text, TextInput} from "@mantine/core";
+import {Group, Loader, SimpleGrid, Stack, Text, TextInput} from "@mantine/core";
 import {IconSearch} from "@tabler/icons-react";
-import {Address} from "../components/Address";
-import {ShortNumber} from "../components/ShortNumber.tsx";
-import {TimeAgo} from "../components/TimeAgo.tsx";
-import {useModules} from "../data_access/modules.tsx";
+import {useModules} from "../data_access/modules";
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useState} from "react";
-import {Module} from "../domains/Module.tsx";
-import {getPath, WebRoutes} from "../routes.ts";
+import {Module} from "../domains/Module";
+import {getPath, WebRoutes} from "../routes";
+import ModuleCard from "../components/ModuleCard";
 
 
 function matchScore(search: string, module: Module): number {
@@ -84,61 +82,11 @@ function SearchDetailsPage() {
             >
                 {
                     filtered.map((module, i) => (
-                        <Card
-                            onClick={() => navigate(getPath(WebRoutes.Module, module.id))}
+                        <ModuleCard
                             key={i}
-                            padding="lg"
-                            radius="lg"
-                            withBorder
-                            style={{
-                                borderColor: 'rgb(74,201,255)', // Customize the border color here
-                                borderWidth: 2,
-                                borderStyle: 'solid',
-                                boxShadow: '0 4px 10px rgb(74,201,255)',
-                            }}
-                        >
-                            <Stack gap="lg">
-                                <Group>
-                                    <Avatar src={`/${module.package}.png`} size="sm"/>
-                                    <Text style={{ textTransform: 'capitalize' }}>{module.package}</Text>
-                                    <Address address={module.packageId} />
-                                </Group>
-                                <Group>
-                                    <Text fw="bold">Module:</Text>
-                                    <Text>{module.module}</Text>
-                                </Group>
-                                <Text lineClamp={2}>{module.description}</Text>
-                                <Group gap="xl">
-                                    <Group gap={5}>
-                                        <Text fw="bold">Transactions:</Text>
-                                        <ShortNumber value={module.metrics.transactions}/>
-                                    </Group>
-                                    <Group gap={8}>
-                                        <Avatar src="/github.png" size="20px"/>
-                                        <ShortNumber value={module.metrics.github}/>
-                                    </Group>
-                                </Group>
-                                <Group>
-                                    <Text fw="bold">Deployed:</Text>
-                                    <TimeAgo date={module.deployedAt}/>
-                                </Group>
-                                <Group>
-                                    <Text fw="bold">Keywords:</Text>
-                                    {
-                                        module.keywords.map((keyword) => (
-                                            <Badge
-                                                key={keyword}
-                                                c="black"
-                                                variant="gradient"
-                                                gradient={{ from: 'rgb(74,201,255)', to: 'rgba(129,213,243,0.58)', deg: 90 }}
-                                            >
-                                                {keyword}
-                                            </Badge>
-                                        ))
-                                    }
-                                </Group>
-                            </Stack>
-                        </Card>
+                            module={module}
+                            onClick={() => navigate(getPath(WebRoutes.Module, module.id))}
+                        />
                     ))
                 }
             </SimpleGrid>
