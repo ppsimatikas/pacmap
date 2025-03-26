@@ -118,7 +118,7 @@ const RotatingScene = ({ setTarget, target }: { setTarget: (target: THREE.Vector
     useFrame(() => {
         // if (groupRef.current && !target && rotate) {
         if (groupRef.current && !target) {
-            groupRef.current.rotation.y += 0.002; // Slow rotation speed
+            groupRef.current.rotation.y += 0.0005; // Slow rotation speed
         }
     });
 
