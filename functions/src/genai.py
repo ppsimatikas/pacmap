@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from openai import OpenAI
 
 
@@ -25,3 +26,17 @@ def get_embedding(text):
         model="text-embedding-ada-002"
     )
     return response.data[0].embedding
+
+
+def find_similar_items(query, items, top_k=3):
+    query_embedding = get_embedding(query)
+
+    def cosine_similarity(a, b):
+        return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+    items_with_score = [
+        (item, cosine_similarity(query_embedding, item["embedding"]))
+        for item in items
+    ]
+    items_with_score.sort(key=lambda x: x[1], reverse=True)
+    return [item for item, score in items_with_score[:top_k]]

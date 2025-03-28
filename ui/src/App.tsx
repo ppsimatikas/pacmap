@@ -8,6 +8,7 @@ import {WebRoutes} from "./routes";
 import SearchPage from "./pages/Search";
 import SearchResults from "./pages/SearchResults";
 import ModulePage from "./pages/ModulePage.tsx";
+import Mappy from "./pages/Mappy";
 
 function Layout() {
     return (
@@ -36,6 +37,7 @@ function App() {
                     <Route path={WebRoutes.Search} element={<SearchPage/>}/>
                     <Route path={WebRoutes.SearchResults} element={<SearchResults/>}/>
                     <Route path={WebRoutes.Module} element={<ModulePage/>}/>
+                    <Route path={WebRoutes.Mappy} element={<Mappy/>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
             </Routes>

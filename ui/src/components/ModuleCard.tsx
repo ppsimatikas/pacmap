@@ -4,21 +4,28 @@ import {Address} from "./Address.tsx";
 import {ShortNumber} from "./ShortNumber";
 import {TimeAgo} from "./TimeAgo";
 import MyMarkdown from "./MyMarkdown";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {getPath, WebRoutes} from "../routes";
 
 export default function ModuleCard({
     module,
-    onClick,
-    withDescription = true
+    withClick = true,
+    withDescription = true,
+    maw,
 }: {
     module: Module
-    onClick?: () => void
+    withClick?: boolean
     withDescription?: boolean
+    maw?: number
 }) {
+    const navigate = useNavigate();
+
     const hasPackageName = module.package !== module.packageId
     return (
         <Card
-            onClick={onClick}
+            miw={350}
+            maw={maw}
+            onClick={() => withClick ? navigate(getPath(WebRoutes.Module, module.id)) : null}
             padding="lg"
             radius="lg"
             withBorder

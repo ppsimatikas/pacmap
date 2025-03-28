@@ -35,6 +35,7 @@ function ModulePage() {
                 <ModuleCard
                     module={module}
                     withDescription={false}
+                    withClick={false}
                 />
             </Box>
             <MyMarkdown>{module.description}</MyMarkdown>

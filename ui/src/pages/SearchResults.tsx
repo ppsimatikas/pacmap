@@ -1,10 +1,9 @@
 import {Group, Loader, SimpleGrid, Stack, Text, TextInput} from "@mantine/core";
 import {IconSearch} from "@tabler/icons-react";
 import {useModules} from "../data_access/modules";
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useState} from "react";
 import {Module} from "../domains/Module";
-import {getPath, WebRoutes} from "../routes";
 import ModuleCard from "../components/ModuleCard";
 
 
@@ -39,7 +38,6 @@ function matchScore(search: string, module: Module): number {
 function SearchDetailsPage() {
     const { modules, loading } = useModules();
     const location = useLocation();
-    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const [search, setSearch] = useState<string>(queryParams.get("query") || '')
 
@@ -82,11 +80,7 @@ function SearchDetailsPage() {
             >
                 {
                     filtered.map((module, i) => (
-                        <ModuleCard
-                            key={i}
-                            module={module}
-                            onClick={() => navigate(getPath(WebRoutes.Module, module.id))}
-                        />
+                        <ModuleCard  key={i} module={module} />
                     ))
                 }
             </SimpleGrid>

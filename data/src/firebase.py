@@ -11,3 +11,9 @@ db = firestore.client()
 def save(col: str, id: str, data: dict):
     doc_ref = db.collection(col).document(id)
     doc_ref.set(data)
+
+
+def get_all(col: str) -> list:
+    collection_ref = db.collection(col)
+    docs = collection_ref.stream()
+    return [{**doc.to_dict(), "id": doc.id} for doc in docs]

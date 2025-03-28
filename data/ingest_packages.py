@@ -5,7 +5,7 @@ load_dotenv()
 
 from datetime import datetime
 from src.utils import get_nested, get_github_stars, bytes_to_code
-from src.genai import ask_ai
+from src.genai import ask_ai, get_embedding
 from src.graphql import get_package_details, get_package_transactions
 from src.firebase import save
 
@@ -55,6 +55,7 @@ def get_modules(pack: str):
             "functions": functions,
             "code": code,
             "description": description,
+            "embedding": get_embedding(description),
             "keywords": keywords,
             "metrics": {
                 "github": github_stars,
