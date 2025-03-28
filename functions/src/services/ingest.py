@@ -1,13 +1,10 @@
 import json
-from dotenv import load_dotenv
-
-load_dotenv()
 
 from datetime import datetime
 from src.utils import get_nested, get_github_stars, bytes_to_code
 from src.genai import ask_ai, get_embedding
 from src.graphql import get_package_details, get_package_transactions
-from src.firebase import save
+from src.firestore import save
 
 description_prompt = """
 You are a Move language expert and you are given Move code of a module.
@@ -80,7 +77,13 @@ packages = [
     },
 ]
 
-for pack in packages:
-    print(f"Ingesting {pack['id']}...")
-    get_modules(pack)
-    print(f"Ingested {pack['id']}.")
+
+def ingest():
+    for pack in packages:
+        print(f"Ingesting {pack['id']}...")
+        get_modules(pack)
+        print(f"Ingested {pack['id']}.")
+
+    return {
+        "ingested": "ok"
+    }

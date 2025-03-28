@@ -12,7 +12,9 @@
     "start:ui": "yarn workspace ui run vite",
     "start:functions": "firebase emulators:start",
     "start": "concurrently \"yarn start:functions\" \"yarn start:ui\"",
-    "deploy:walrus": "./scripts/deploy.sh"
+    "deploy:walrus": "./scripts/deploy.sh",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy": "yarn deploy:functions && yarn deploy:walrus"
   },
   "dependencies": {
     "firebase-tools": "^13.13.2"
