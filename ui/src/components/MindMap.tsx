@@ -5,7 +5,7 @@ import {brandColor} from "../theme.ts";
 import {useEffect, useRef, useState} from "react";
 import {useUiBreakpoints} from "../utils/use-ui-breakpoints.ts";
 import {useModules} from "../data_access/modules.tsx";
-import {Module} from "../domains/Module";
+// import {Module} from "../domains/Module";
 import {Package} from "../domains/Package";
 import {shortAddress} from "./Address";
 import {PACKAGE_COLORS} from "../utils/colors";
@@ -52,20 +52,20 @@ const Node = ({ position, color, title, icon, onClick }: {
     );
 };
 
-const generateModuleNodes = (modules: Module[]) => {
-    return modules.map((m) => ({
-        position: [
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 20,
-        ],
-        color: PACKAGE_COLORS[m.package.toLowerCase()] || "blue",
-        id: m.module,
-        name: m.module,
-        parent: m.packageId,
-        icon: 'function.svg',
-    }));
-};
+// const generateModuleNodes = (modules: Module[]) => {
+//     return modules.map((m) => ({
+//         position: [
+//             (Math.random() - 0.5) * 20,
+//             (Math.random() - 0.5) * 20,
+//             (Math.random() - 0.5) * 20,
+//         ],
+//         color: PACKAGE_COLORS[m.package.toLowerCase()] || "blue",
+//         id: m.module,
+//         name: m.module,
+//         parent: m.packageId,
+//         icon: 'function.svg',
+//     }));
+// };
 
 const generatePackageNodes = (packages: Package[]) => {
     return packages.map((p) => ({
