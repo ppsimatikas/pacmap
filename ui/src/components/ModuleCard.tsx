@@ -6,6 +6,7 @@ import {TimeAgo} from "./TimeAgo";
 import MyMarkdown from "./MyMarkdown";
 import {Link, useNavigate} from "react-router-dom";
 import {getPath, WebRoutes} from "../routes";
+import {PACKAGE_COLORS} from "../utils/colors.ts";
 
 export default function ModuleCard({
     module,
@@ -30,7 +31,7 @@ export default function ModuleCard({
             radius="lg"
             withBorder
             style={{
-                borderColor: 'rgb(74,201,255)', // Customize the border color here
+                borderColor: 'rgb(74,201,255)',
                 borderWidth: 2,
                 borderStyle: 'solid',
                 boxShadow: '0 4px 10px rgb(74,201,255)',
@@ -39,9 +40,9 @@ export default function ModuleCard({
             <Stack gap="lg">
                 <Group>
                     <Avatar
-                        src={hasPackageName ? `/${module.package}.png` : "/module.svg"}
+                        src={hasPackageName ? `/${module.package.toLowerCase()}.png` : "/module.svg"}
                         size="sm"
-                        bg='rgb(74,201,255)'
+                        bg={PACKAGE_COLORS[module.package.toLowerCase()] || 'rgb(74,201,255)'}
                         p={hasPackageName ? 5 : 2}
                     />
                     { hasPackageName && <Text style={{ textTransform: 'capitalize' }}>{module.package}</Text>}

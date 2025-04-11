@@ -23,7 +23,7 @@ def ask_ai(system: str, question: str, ):
 def get_embedding(text):
     response = get_client().embeddings.create(
         input=[text],
-        model="text-embedding-ada-002"
+        model="text-embedding-3-large"
     )
     return response.data[0].embedding
 

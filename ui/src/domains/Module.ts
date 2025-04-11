@@ -6,6 +6,7 @@ export interface Module {
     packageId: string
     module: string
     description: string
+    longDescription: string
     metrics: Metrics
     deployedAt: Date
     keywords: string[]

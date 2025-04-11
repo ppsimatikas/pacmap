@@ -55,11 +55,11 @@ def get_package_details(package_id: str):
     return get_graphql_data(query.replace("<PACKAGE>", package_id))["package"]
 
 
-def get_package_transactions(package_id: str, module: str, after: str = "null"):
+def get_package_transactions(package_id: str, module: str, first_last: str = "first", after: str = "NONE"):
     query = """
     {
       transactionBlocks(
-        first:50,
+        <FIRSTLAST>: 50,
         after: <AFTER>,
         filter: {
             function: "<PACKAGE>::<MODULE>"
@@ -71,20 +71,27 @@ def get_package_transactions(package_id: str, module: str, after: str = "null"):
           hasNextPage
         }
         nodes {
-          digest
+          effects {
+            timestamp
+          }
         }
       }
     }
     """
+    query = query.replace("<FIRSTLAST>", first_last)
     query = query.replace("<PACKAGE>", package_id)
     query = query.replace("<MODULE>", module)
-    query = query.replace("<AFTER>", after if after == "null" else f'"{after}"')
+
+    if after != 'NONE':
+        query = query.replace("<AFTER>", after if after == "null" else f'"{after}"')
+    else:
+        query = query.replace("after: <AFTER>,", "")
 
     data = get_graphql_data(query)["transactionBlocks"]
 
     page_info = data["pageInfo"]
-    if page_info["hasNextPage"]:
+    if page_info["hasNextPage"] and after != 'NONE':
         cursor = page_info["endCursor"]
-        return len(data["nodes"]) + get_package_transactions(package_id, module, cursor)
+        return data["nodes"] + get_package_transactions(package_id, module, cursor)
 
-    return len(data["nodes"])
+    return data["nodes"]

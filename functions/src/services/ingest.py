@@ -3,12 +3,18 @@ import json
 from datetime import datetime
 from src.utils import get_nested, get_github_stars, bytes_to_code
 from src.genai import ask_ai, get_embedding
-from src.graphql import get_package_details, get_package_transactions
-from src.firestore import save
+from src.graphql import get_package_details
+from src.firestore import save, get_all
+from src.services.get_transactions import get_transactions
+
+long_description_prompt = """
+You are a Move language expert and you are given Move code of a module.
+Your task is to generate a description on this Move module and each of the functions as Markdown.
+"""
 
 description_prompt = """
 You are a Move language expert and you are given Move code of a module.
-Your task is to generate a description on this Move module and each of the functions as Markdown.
+Your task is to generate one short paragraph describing the functionality of this Move module.
 """
 
 keywords_prompt = """
@@ -41,6 +47,7 @@ def get_modules(pack: str):
         code = bytes_to_code(module["bytes"])
 
         description = ask_ai(description_prompt, code)
+        long_description = ask_ai(long_description_prompt, code)
 
         keywords = ask_ai(keywords_prompt, code)
         keywords = keywords.replace("```json", "").replace("```", "").strip()
@@ -52,12 +59,12 @@ def get_modules(pack: str):
             "functions": functions,
             "code": code,
             "description": description,
+            "longDescription": long_description,
             "embedding": get_embedding(description),
             "keywords": keywords,
             "metrics": {
                 "github": github_stars,
-                "transactions": 0,
-                # "transactions": get_package_transactions(pack["id"], module["name"]),
+                "transactions": get_transactions(pack["id"], module["name"]),
             }
         }
 
@@ -75,6 +82,16 @@ packages = [
         "id": "0x0000000000000000000000000000000000000000000000000000000000000001",
         "github": "MystenLabs/sui"
     },
+    {
+        "name": "Navi",
+        "id": "0x81c408448d0d57b3e371ea94de1d40bf852784d3e225de1e74acab3e8395c18f",
+        "github": "naviprotocol/protocol-interface"
+    },
+    {
+        "name": "scallop",
+        "id": "0x83bbe0b3985c5e3857803e2678899b03f3c4a31be75006ab03faf268c014ce41",
+        "github": "scallop-io/sui-lending-protocol"
+    },
 ]
 
 
@@ -87,3 +104,15 @@ def ingest():
     return {
         "ingested": "ok"
     }
+
+def ingest_metrics():
+    modules = get_all("modules")
+    for module in modules:
+        print("Updating transactions for:", module["packageId"], module["module"])
+        github_stars = get_github_stars(module["github"])
+        transactions = get_transactions(module["packageId"], module["module"])
+        if transactions > 0 or github_stars != module["metrics"]["github"]:
+            module["metrics"]["transactions"] = transactions
+            module["metrics"]["github"] = github_stars
+            save("modules", module["id"], module)
+            print("Updated transactions for:", module["packageId"], module["module"], transactions)

@@ -1,4 +1,4 @@
-import {Loader, Stack, Title, Box} from "@mantine/core";
+import {Loader, Stack, Title, Box, Center, Group} from "@mantine/core";
 import {useModules} from "../data_access/modules";
 import {useParams} from 'react-router-dom';
 import NoMatch from "./NoMatch";
@@ -13,10 +13,14 @@ import {shortAddress} from "../components/Address";
 function ModulePage() {
     const {modules, loading} = useModules();
     const {id} = useParams();
-    const {isSm} = useUiBreakpoints();
+    const {isSm, isMd} = useUiBreakpoints();
 
     if (loading || !modules) {
-        return <Loader/>
+        return (
+            <Center m={100}>
+                <Loader/>
+            </Center>
+        )
     }
 
     const module = modules.find((module) => module.id === id);
@@ -28,17 +32,23 @@ function ModulePage() {
     return (
         <Stack mt={50} gap={50}>
             <Title ta="center" style={{textTransform: 'capitalize'}}>{module.module} by {shortAddress(module.package)}</Title>
-            <Box
-                m="auto"
-                w={isSm ? "100%" : "auto"}
-            >
-                <ModuleCard
-                    module={module}
-                    withDescription={false}
-                    withClick={false}
-                />
-            </Box>
-            <MyMarkdown>{module.description}</MyMarkdown>
+            <Group wrap={isMd ? undefined: "nowrap"} gap="xl">
+                <Box
+                    m="auto"
+                    w={isSm ? "100%" : "auto"}
+                >
+                    <ModuleCard
+                        module={module}
+                        withDescription={false}
+                        withClick={false}
+                    />
+                </Box>
+                <MyMarkdown>{module.description}</MyMarkdown>
+            </Group>
+            <Stack>
+                <Title order={2}>More Details:</Title>
+                <MyMarkdown>{module.longDescription}</MyMarkdown>
+            </Stack>
             <Stack mt={30}>
                 <Title order={2} ff="Sixtyfour" fw="normal">Module Code</Title>
                 <SyntaxHighlighter language="rust" style={materialDark}>

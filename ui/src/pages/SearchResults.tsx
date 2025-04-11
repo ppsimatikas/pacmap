@@ -1,4 +1,4 @@
-import {Group, Loader, SimpleGrid, Stack, Text, TextInput} from "@mantine/core";
+import {Center, Group, Loader, SimpleGrid, Stack, Text, TextInput} from "@mantine/core";
 import {IconSearch} from "@tabler/icons-react";
 import {useModules} from "../data_access/modules";
 import {useLocation} from 'react-router-dom';
@@ -42,7 +42,11 @@ function SearchDetailsPage() {
     const [search, setSearch] = useState<string>(queryParams.get("query") || '')
 
     if (loading || !modules) {
-        return <Loader/>
+        return (
+            <Center m={100}>
+                <Loader/>
+            </Center>
+        )
     }
 
     const filtered = modules

@@ -8,6 +8,7 @@ import {useModules} from "../data_access/modules.tsx";
 import {Module} from "../domains/Module";
 import {Package} from "../domains/Package";
 import {shortAddress} from "./Address";
+import {PACKAGE_COLORS} from "../utils/colors";
 
 const Node = ({ position, color, title, icon, onClick }: {
     position: number[];
@@ -58,7 +59,7 @@ const generateModuleNodes = (modules: Module[]) => {
             (Math.random() - 0.5) * 20,
             (Math.random() - 0.5) * 20,
         ],
-        color: "blue",
+        color: PACKAGE_COLORS[m.package.toLowerCase()] || "blue",
         id: m.module,
         name: m.module,
         parent: m.packageId,
@@ -73,11 +74,12 @@ const generatePackageNodes = (packages: Package[]) => {
             (Math.random() - 0.5) * 20,
             (Math.random() - 0.5) * 20,
         ],
-        color: "blue",
+        color: PACKAGE_COLORS[p.name.toLowerCase()] || "blue",
         name: shortAddress(p.name),
         id: p.id,
         parent: '',
-        icon: p.name === p.id ? `module.svg` : `${p.name}.png`,
+        linkedPackages: p.linkedPackages,
+        icon: p.name === p.id ? `module.svg` : `${p.name.toLowerCase()}.png`,
     }));
 };
 
@@ -86,6 +88,14 @@ const generateConnections = (packageNodes: any[], moduleNodes: any[]) => {
 
     packageNodes.forEach((p) => {
         const ns = moduleNodes.filter((m) => m.parent === p.id);
+        ns.forEach((m) => {
+            connections.push([p, m]);
+        })
+    });
+
+
+    packageNodes.forEach((p) => {
+        const ns = packageNodes.filter((p1) => p1.linkedPackages.indexOf(p.id) !== -1);
         ns.forEach((m) => {
             connections.push([p, m]);
         })
@@ -127,11 +137,11 @@ const RotatingScene = ({ setTarget, target }: { setTarget: (target: THREE.Vector
     }
 
     const packageNodes = generatePackageNodes(packages)
-    const moduleNodes = generateModuleNodes(modules)
+    // const moduleNodes = generateModuleNodes(modules)
 
-    const nodes = packageNodes.concat(moduleNodes)
+    const nodes = packageNodes
 
-    const connections = generateConnections(packageNodes, moduleNodes)
+    const connections = generateConnections(packageNodes, [])
 
     return (
         <group ref={groupRef}>

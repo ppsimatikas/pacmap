@@ -1,7 +1,7 @@
 from firebase_functions import https_fn, options, scheduler_fn
 from firebase_admin import initialize_app
 from src.services.chat import get_matched_modules
-from src.services.ingest import ingest
+from src.services.ingest import ingest, ingest_metrics
 
 initialize_app()
 
@@ -44,3 +44,13 @@ def chat(req: https_fn.Request) -> https_fn.Response:
 # )
 # def ingest_packages(event: scheduler_fn.ScheduledEvent) -> None:
 #     return ingest()
+
+
+# Commented out for now, to not get charges on firebase triggers.
+# @scheduler_fn.on_schedule(
+#     schedule="every month 00:00",
+#     region="europe-west1",
+#     timeout_sec=60*5,
+# )
+# def ingest_metrics(event: scheduler_fn.ScheduledEvent) -> None:
+#     return ingest_metrics()

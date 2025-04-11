@@ -24,7 +24,7 @@ This codebase serves: https://pacmap.walrus.site/
    ```
 
    ```bash
-   cd pacmp
+   cd pacmap
    ```
 
 2. **Backend**: Install the required python dependencies:

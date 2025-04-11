@@ -9,6 +9,7 @@ function getPackages(modules: Module[]): Package[] {
         if (!acc[pkg]) {
             acc[pkg] = {
                 name: curr.package,
+                linkedPackages: curr.linkedPackages,
                 transactions: 0,
                 github: 0,
             };
@@ -21,6 +22,7 @@ function getPackages(modules: Module[]): Package[] {
     return Object.keys(dict).map((id: string) => ({
         id,
         name: dict[id].name,
+        linkedPackages: dict[id].linkedPackages,
         metrics: {
             transactions: dict[id].transactions,
             github: dict[id].github,
