@@ -3,12 +3,13 @@ import {useQuery} from "@tanstack/react-query";
 import {Package} from "../domains/Package";
 import {getItems} from "../utils/firestore";
 
-function getPackages(modules: Module[]): Package[] {
+export function getPackages(modules: Module[]): Package[] {
     const dict = modules.reduce((acc: any, curr: any) => {
         const pkg = curr.packageId;
         if (!acc[pkg]) {
             acc[pkg] = {
                 name: curr.package,
+                icon: curr.icon,
                 linkedPackages: curr.linkedPackages,
                 transactions: 0,
                 github: 0,
@@ -23,6 +24,7 @@ function getPackages(modules: Module[]): Package[] {
         id,
         name: dict[id].name,
         linkedPackages: dict[id].linkedPackages,
+        icon: dict[id].icon,
         metrics: {
             transactions: dict[id].transactions,
             github: dict[id].github,

@@ -32,6 +32,7 @@ export function Chat({
             .finally(() => setLoading(false))
     };
 
+    const defaultPrompt = "What is the best package to store order books?";
     const renderWelcome = () => (
         <Stack flex={1} justify="center" ta='center'>
             <Stack flex={1} justify="center">
@@ -39,13 +40,13 @@ export function Chat({
                 <Text>{title}</Text>
             </Stack>
             <Stack>
-                <i>"What is the best package to get balances?"</i>
+                <i>"{defaultPrompt}"</i>
                 <Button
                     size="md"
                     maw={500}
                     m="auto"
                     radius="lg"
-                    onClick={() => postMessage("What is the best package to get balances?")}
+                    onClick={() => postMessage(defaultPrompt)}
                 >
                     Let's chat !
                 </Button>

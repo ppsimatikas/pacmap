@@ -5,4 +5,13 @@ export interface Package {
     name: string
     metrics: Metrics
     linkedPackages: string[]
+    icon?: string
+}
+
+export function getPackageIcon(p: Package) {
+    if (p.icon) {
+        return p.icon;
+    }
+
+    return p.name === p.id ? `/module.svg` : `/${p.name.toLowerCase()}.png`;
 }

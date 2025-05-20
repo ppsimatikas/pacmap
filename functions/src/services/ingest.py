@@ -6,6 +6,7 @@ from src.genai import ask_ai, get_embedding
 from src.graphql import get_package_details
 from src.firestore import save, get_all
 from src.services.get_transactions import get_transactions
+from src.services.mvr import get_mvr_packages
 
 long_description_prompt = """
 You are a Move language expert and you are given Move code of a module.
@@ -40,6 +41,9 @@ def get_modules(pack: str):
         "linkedPackages": [l["upgradedId"] for l in data["linkage"]],
         "github": github,
     }
+
+    if "icon" in pack:
+        package["icon"] = pack["icon"]
 
     for module in data["modules"]["nodes"]:
         print(f"Ingesting {pname}/{module['name']}...")
@@ -92,7 +96,7 @@ packages = [
         "id": "0x83bbe0b3985c5e3857803e2678899b03f3c4a31be75006ab03faf268c014ce41",
         "github": "scallop-io/sui-lending-protocol"
     },
-]
+] + get_mvr_packages()
 
 
 def ingest():
@@ -104,6 +108,7 @@ def ingest():
     return {
         "ingested": "ok"
     }
+
 
 def ingest_metrics():
     modules = get_all("modules")

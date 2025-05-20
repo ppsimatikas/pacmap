@@ -7,6 +7,8 @@ import MyMarkdown from "./MyMarkdown";
 import {Link, useNavigate} from "react-router-dom";
 import {getPath, WebRoutes} from "../routes";
 import {PACKAGE_COLORS} from "../utils/colors.ts";
+import {getPackages} from "../data_access/modules.tsx";
+import {getPackageIcon} from "../domains/Package.ts";
 
 export default function ModuleCard({
     module,
@@ -20,7 +22,7 @@ export default function ModuleCard({
     maw?: number
 }) {
     const navigate = useNavigate();
-
+    const p = getPackages([module]).pop()
     const hasPackageName = module.package !== module.packageId
     return (
         <Card
@@ -40,7 +42,7 @@ export default function ModuleCard({
             <Stack gap="lg">
                 <Group>
                     <Avatar
-                        src={hasPackageName ? `/${module.package.toLowerCase()}.png` : "/module.svg"}
+                        src={p ? getPackageIcon(p) : "/module.svg"}
                         size="sm"
                         bg={PACKAGE_COLORS[module.package.toLowerCase()] || 'rgb(74,201,255)'}
                         p={hasPackageName ? 5 : 2}

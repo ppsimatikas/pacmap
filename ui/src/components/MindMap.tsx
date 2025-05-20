@@ -6,7 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {useUiBreakpoints} from "../utils/use-ui-breakpoints.ts";
 import {useModules} from "../data_access/modules.tsx";
 // import {Module} from "../domains/Module";
-import {Package} from "../domains/Package";
+import {getPackageIcon, Package} from "../domains/Package";
 import {shortAddress} from "./Address";
 import {PACKAGE_COLORS} from "../utils/colors";
 
@@ -17,7 +17,7 @@ const Node = ({ position, color, title, icon, onClick }: {
     icon: string;
     onClick: (point: THREE.Vector3) => void;
 }) => {
-    const texture = useTexture(`/${icon}`); // Load Ethereum or custom logo image
+    const texture = useTexture(icon);
 
     return (
         <group position={position as [number, number, number]} onClick={(e) => onClick(e.point)}>
@@ -79,7 +79,7 @@ const generatePackageNodes = (packages: Package[]) => {
         id: p.id,
         parent: '',
         linkedPackages: p.linkedPackages,
-        icon: p.name === p.id ? `module.svg` : `${p.name.toLowerCase()}.png`,
+        icon: getPackageIcon(p),
     }));
 };
 
@@ -107,6 +107,8 @@ const generateConnections = (packageNodes: any[], moduleNodes: any[]) => {
 const RotatingScene = ({ setTarget, target }: { setTarget: (target: THREE.Vector3 | null) => void, target: THREE.Vector3 | null }) => {
     const groupRef = useRef<THREE.Group>(null);
     const {modules, packages} =  useModules()
+    console.log(modules);
+    console.log(packages);
 
     // const { gl } = useThree();
     // const [rotate, setRotate] = useState<boolean>(true);

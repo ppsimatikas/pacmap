@@ -8,7 +8,7 @@ function SearchPage() {
         <Stack>
             <SimpleGrid
                 cols={{ base: 1, md: 2 }}
-                spacing="md"
+                spacing="0"
                 style={{ alignItems: 'start' }}
             >
                 <MindMap/>

@@ -8,6 +8,7 @@ import {toResults} from "../routes";
 import {useState} from "react";
 import {shortAddress} from "../components/Address";
 import {PACKAGE_COLORS} from "../utils/colors";
+import {getPackageIcon} from "../domains/Package.ts";
 
 
 function PackageList() {
@@ -45,7 +46,7 @@ function PackageList() {
                         {
                             packages.map((p, i) => (
                                 <Group key={i} onClick={() => navigate(toResults(p.name))}>
-                                    <Avatar src={p.name === p.id ? '/module.svg' : `/${p.name.toLowerCase()}.png`} alt="sui"
+                                    <Avatar src={getPackageIcon(p)} alt="sui"
                                             bg={PACKAGE_COLORS[p.name.toLowerCase()] || "blue"}
                                             p={5} size="md"
                                     />
