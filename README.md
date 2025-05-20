@@ -73,7 +73,7 @@ Visit ui: http://localhost:5173/
 
 As shown in the architecture diagram, the frontend is deployed on Walrus Sites and the backend on firebase.
 
-**You must follow the instructions to setup walrus locally [here](https://docs.walrus.site/walrus-sites/tutorial-install.html).**
+**You must follow the instructions to setup walrus locally [here](https://docs.wal.app/usage/setup.html).**
 
 Simply deploy both FE and BE:
 ```bash
